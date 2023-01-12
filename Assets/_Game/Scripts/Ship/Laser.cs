@@ -12,8 +12,7 @@ namespace Ship
         [Header("Project References:")] [SerializeField]
         private LaserRuntimeSet _lasers;
 
-        [Header("Values:")]
-        [SerializeField] private float _speed = 0.2f;
+        private float _speed = 0.2f;
 
         private Rigidbody2D _rigidbody;
 
@@ -22,6 +21,7 @@ namespace Ship
             _rigidbody = GetComponent<Rigidbody2D>();
             _lasers.Add(gameObject);
             Debug.Log(" Amount Of Lasers: " + _lasers.Amount);
+            _speed = GameManager.ActiveManager.PlayerLaserSpeed;
         }
 
         private void OnDestroy()

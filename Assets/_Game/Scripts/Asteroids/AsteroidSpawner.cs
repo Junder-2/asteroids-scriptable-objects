@@ -7,10 +7,13 @@ namespace Asteroids
     public class AsteroidSpawner : MonoBehaviour
     {
         [SerializeField] private Asteroid _asteroidPrefab;
-        [SerializeField] private float _minSpawnTime;
+        /*[SerializeField] private float _minSpawnTime;
         [SerializeField] private float _maxSpawnTime;
         [SerializeField] private int _minAmount;
-        [SerializeField] private int _maxAmount;
+        [SerializeField] private int _maxAmount;*/
+
+        private AnimationCurve _spawnTime;
+        private AnimationCurve _spawnAmount;
         
         private float _timer;
         private float _nextSpawnTime;
@@ -27,6 +30,8 @@ namespace Asteroids
         private void Start()
         {
             _camera = Camera.main;
+            _spawnAmount = GameManager.ActiveManager.AsteroidSpawnAmount;
+            _spawnTime = GameManager.ActiveManager.AsteroidSpawnTime;
             Spawn();
             UpdateNextSpawnTime();
         }
@@ -45,7 +50,8 @@ namespace Asteroids
 
         private void UpdateNextSpawnTime()
         {
-            _nextSpawnTime = Random.Range(_minSpawnTime, _maxSpawnTime);
+            //_nextSpawnTime = Random.Range(_minSpawnTime, _maxSpawnTime);
+            _nextSpawnTime = _spawnTime.Evaluate(Random.Range(0, 1f));
         }
 
         private void UpdateTimer()
@@ -60,7 +66,8 @@ namespace Asteroids
 
         private void Spawn()
         {
-            var amount = Random.Range(_minAmount, _maxAmount + 1);
+            //var amount = Random.Range(_minAmount, _maxAmount + 1);
+            var amount = _spawnAmount.Evaluate(Random.Range(0, 1f));
             
             for (var i = 0; i < amount; i++)
             {

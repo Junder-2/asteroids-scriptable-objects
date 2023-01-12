@@ -23,7 +23,7 @@ namespace Variables
             _simpleValue = value;
             _useSimple = true;
         }
-
+        
         public int GetValue()
         {
             return _useSimple ? _simpleValue : _intVariable.Value;

@@ -1,3 +1,4 @@
+using System;
 using DefaultNamespace.ScriptableEvents;
 using UnityEngine;
 using Variables;
@@ -7,10 +8,15 @@ namespace Ship
     public class Hull : MonoBehaviour
     {
         //[SerializeField] private IntVariable _health;
-        [SerializeField] private ScriptableEventIntReference _onHealthChangedEvent;
-        [SerializeField] private IntReference _healthRef;
+        //[SerializeField] private ScriptableEventIntReference _onHealthChangedEvent;
+        //[SerializeField] private IntReference _healthRef;
         [SerializeField] private IntObservable _healthObservable;
-        
+
+        private void Awake()
+        {
+            _healthObservable.SetValue(GameManager.ActiveManager.PlayerHealth);
+        }
+
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (string.Equals(other.gameObject.tag, "Asteroid"))

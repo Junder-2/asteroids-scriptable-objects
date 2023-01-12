@@ -10,16 +10,21 @@ namespace Asteroids
     {
         [SerializeField] private ScriptableEventInt _onAsteroidDestroyed;
         
-        [Header("Config:")]
+        /*[Header("Config:")]
         [SerializeField] private float _minForce;
         [SerializeField] private float _maxForce;
         [SerializeField] private float _minSize;
         [SerializeField] private float _maxSize;
         [SerializeField] private float _minTorque;
-        [SerializeField] private float _maxTorque;
+        [SerializeField] private float _maxTorque;*/
 
-        [Header("References:")]
-        [SerializeField] private Transform _shape;
+        private AnimationCurve _force;
+        private AnimationCurve _size;
+        private AnimationCurve _torque;
+
+        //[Header("References:")]
+        //[SerializeField] private Transform _shape;
+        private Transform _shape;
 
         private Rigidbody2D _rigidbody;
         private Vector3 _direction;
@@ -29,6 +34,11 @@ namespace Asteroids
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _instanceId = GetInstanceID();
+            _shape = transform.GetChild(0);
+
+            _force = GameManager.ActiveManager.AsteroidForce;
+            _size = GameManager.ActiveManager.AsteroidSize;
+            _torque = GameManager.ActiveManager.AsteroidTorque;
             
             SetDirection();
             AddForce();
@@ -81,16 +91,18 @@ namespace Asteroids
 
         private void AddForce()
         {
-            var force = Random.Range(_minForce, _maxForce);
+            //var force = Random.Range(_minForce, _maxForce);
+            var force = _force.Evaluate(Random.Range(0, 1f));
             _rigidbody.AddForce( _direction * force, ForceMode2D.Impulse);
         }
 
         private void AddTorque()
         {
-            var torque = Random.Range(_minTorque, _maxTorque);
-            var roll = Random.Range(0, 2);
+            //var torque = Random.Range(_minTorque, _maxTorque);
+            var torque = _torque.Evaluate(Random.Range(0, 1f));
+            var negate = Random.Range(0, 2);
 
-            if (roll == 0)
+            if (negate == 0)
                 torque = -torque;
             
             _rigidbody.AddTorque(torque, ForceMode2D.Impulse);
@@ -98,7 +110,8 @@ namespace Asteroids
 
         private void SetSize()
         {
-            var size = Random.Range(_minSize, _maxSize);
+            //var size = Random.Range(_minSize, _maxSize);
+            var size = _size.Evaluate(Random.Range(0, 1f));
             _shape.localScale = new Vector3(size, size, 0f);
         }
     }
