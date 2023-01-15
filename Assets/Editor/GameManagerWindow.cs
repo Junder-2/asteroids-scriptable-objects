@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -11,14 +12,19 @@ public class GameManagerWindow : EditorWindow
     static void CreateMenu()
     {
         var window = GetWindow<GameManagerWindow>();
+        window.minSize = new Vector2(250, 400);
         window.titleContent = new GUIContent("Game Manager");
+    }
+
+    private void OnEnable()
+    {
+        m_GameManager = GameManager.ActiveManager;
     }
 
     public void CreateGUI()
     {
-        if(m_GameManager == null) return;
+        var scrollView = new VisualElement();
 
-        var scrollView = new ScrollView { viewDataKey = "WindowScrollView" };
         scrollView.Add(new InspectorElement(m_GameManager));
         rootVisualElement.Add(scrollView);
     }
