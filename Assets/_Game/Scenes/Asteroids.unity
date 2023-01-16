@@ -377,12 +377,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
-    - target: {fileID: 7101966235372498890, guid: c71243f12cdfc2a4282f1805a6098327, type: 3}
-      propertyPath: m_ScreenMatchMode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7101966235372498890, guid: c71243f12cdfc2a4282f1805a6098327, type: 3}
-      propertyPath: m_MatchWidthOrHeight
+    - target: {fileID: 7101966235372498891, guid: c71243f12cdfc2a4282f1805a6098327, type: 3}
+      propertyPath: m_TargetDisplay
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7101966235372498892, guid: c71243f12cdfc2a4282f1805a6098327, type: 3}

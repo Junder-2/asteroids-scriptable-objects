@@ -4,7 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GameManagerWindow : EditorWindow
+public class GameManagerWindow : EditorWindow, IHasCustomMenu
 {
     public GameManager m_GameManager;
 
@@ -12,7 +12,7 @@ public class GameManagerWindow : EditorWindow
     static void CreateMenu()
     {
         var window = GetWindow<GameManagerWindow>();
-        window.minSize = new Vector2(250, 400);
+        window.position = new Rect(50f, 50f, 250, 400);
         window.titleContent = new GUIContent("Game Manager");
     }
 
@@ -23,9 +23,21 @@ public class GameManagerWindow : EditorWindow
 
     public void CreateGUI()
     {
-        var scrollView = new VisualElement();
+        var view = new VisualElement();
 
-        scrollView.Add(new InspectorElement(m_GameManager));
-        rootVisualElement.Add(scrollView);
+        view.Add(new InspectorElement(m_GameManager));
+        rootVisualElement.Add(view);
+    }
+
+    private void ResetAsset()
+    {
+        Undo.RecordObject(m_GameManager, "Reset Values");
+        m_GameManager.Reset();
+    }
+
+    public void AddItemsToMenu(GenericMenu menu)
+    {
+        GUIContent content = new GUIContent("Reset Values");
+        menu.AddItem(content, false, ResetAsset);
     }
 }

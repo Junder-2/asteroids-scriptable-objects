@@ -7,10 +7,24 @@ namespace Ship
     {
         [SerializeField] private Laser _laserPrefab;
 
+        private float _fireRate;
+
+        private float _fireTimer;
+
+        private void Start()
+        {
+            _fireRate = GameManager.ActiveManager.PlayerFireRate;
+            _fireTimer = _fireRate;
+        }
+
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space) && _fireTimer > _fireRate)
+            {
                 Shoot();
+                _fireTimer = 0;
+            }
+            _fireTimer += Time.deltaTime;
         }
         
         private void Shoot()

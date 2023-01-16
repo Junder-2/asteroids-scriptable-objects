@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e79add802bb446699f0772208b72093, type: 3}
-  m_Name: Game Manager Data
+  m_Name: GameManagerData
   m_EditorClassIdentifier: 
   PlayerThrottlePower: 7
   PlayerRotationPower: 3
   PlayerHealth: 10
   PlayerLaserSpeed: 0.2
+  PlayerFireRate: 0.25
   AsteroidSpawnTime:
     serializedVersion: 2
     m_Curve:

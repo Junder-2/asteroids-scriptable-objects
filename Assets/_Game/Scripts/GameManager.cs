@@ -1,7 +1,8 @@
-﻿using UnityEditor.UIElements;
+﻿using System;
+using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Game Manager Data", menuName = "Tools/GameManagerData")]
 public class GameManager : ScriptableObject
 {
     private static GameManager _activeManager;
@@ -11,22 +12,55 @@ public class GameManager : ScriptableObject
         get
         {
             if (_activeManager == null)
-                _activeManager = CreateInstance<GameManager>();
+            {
+                GameManager manager = Resources.Load<GameManager>("GameManagerData");
+
+                if (manager != null)
+                {
+                    _activeManager = manager;
+                    return _activeManager;
+                }
+                
+                manager = CreateInstance<GameManager>();
+                AssetDatabase.CreateAsset(manager, "Assets/Resources/GameManagerData");
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                _activeManager = manager;
+                _activeManager.Reset();
+            }
+                
 
             return _activeManager;
         }
         set => _activeManager = value;
     }
+
+    public void Reset()
+    {
+        PlayerThrottlePower = 7;
+        PlayerRotationPower = 3;
+        PlayerHealth = 10;
+        PlayerLaserSpeed = .2f;
+        PlayerFireRate = .25f;
+
+        AsteroidSpawnTime = AnimationCurve.Linear(0, 1, 1, 4);
+        AsteroidSpawnAmount = AnimationCurve.Linear(0, 1, 1, 2);
+        AsteroidForce = AnimationCurve.Linear(0, 2, 1, 6);
+        AsteroidSize = AnimationCurve.Linear(0, .2f, 1, 1);
+        AsteroidTorque = AnimationCurve.Linear(0, .1f, 1, .5f);
+    }
+
+    public float PlayerThrottlePower;
+    public float PlayerRotationPower;
+    public int PlayerHealth;
+    public float PlayerLaserSpeed;
+    public float PlayerFireRate;
     
-    public float PlayerThrottlePower = 7;
-    public float PlayerRotationPower = 3;
-    public int PlayerHealth = 10;
-    public float PlayerLaserSpeed = .2f;
+    public AnimationCurve AsteroidSpawnTime;
+    public AnimationCurve AsteroidSpawnAmount;
     
-    public AnimationCurve AsteroidSpawnTime = AnimationCurve.Linear(0, 1, 1, 4);
-    public AnimationCurve AsteroidSpawnAmount = AnimationCurve.Linear(0, 1, 1, 2);
-    
-    public AnimationCurve AsteroidForce = AnimationCurve.Linear(0, 2, 1, 6);
-    public AnimationCurve AsteroidSize = AnimationCurve.Linear(0, .2f, 1, 1);
-    public AnimationCurve AsteroidTorque = AnimationCurve.Linear(0, .1f, 1, .5f);
+    public AnimationCurve AsteroidForce;
+    public AnimationCurve AsteroidSize;
+    public AnimationCurve AsteroidTorque;
 }
