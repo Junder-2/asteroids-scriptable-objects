@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
+using Variables;
 
 public class GameManager : ScriptableObject
 {
@@ -51,12 +52,23 @@ public class GameManager : ScriptableObject
         AsteroidTorque = AnimationCurve.Linear(0, .1f, 1, .5f);
     }
 
+    private void OnValidate()
+    {
+        PlayerThrottlePower.ClampZero();
+        PlayerRotationPower.ClampZero();
+        PlayerHealth.ClampZero();
+        PlayerLaserSpeed.ClampZero();
+        PlayerFireRate.ClampZero();
+        MathExtension.ClampCurve(ref AsteroidSpawnTime, Rect.MinMaxRect(0, 0, 1, 30));
+        MathExtension.ClampCurve(ref AsteroidSize, Rect.MinMaxRect(0, 0, 1, 20));
+    }
+
     public float PlayerThrottlePower;
     public float PlayerRotationPower;
     public int PlayerHealth;
     public float PlayerLaserSpeed;
     public float PlayerFireRate;
-    
+
     public AnimationCurve AsteroidSpawnTime;
     public AnimationCurve AsteroidSpawnAmount;
     
