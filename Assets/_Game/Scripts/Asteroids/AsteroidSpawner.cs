@@ -52,6 +52,7 @@ namespace Asteroids
         {
             //_nextSpawnTime = Random.Range(_minSpawnTime, _maxSpawnTime);
             _nextSpawnTime = _spawnTime.Evaluate(Random.Range(0, 1f));
+            _nextSpawnTime.ClampZero();
         }
 
         private void UpdateTimer()
@@ -68,6 +69,7 @@ namespace Asteroids
         {
             //var amount = Random.Range(_minAmount, _maxAmount + 1);
             var amount = _spawnAmount.Evaluate(Random.Range(0, 1f));
+            amount.ClampZero();
             
             for (var i = 0; i < amount; i++)
             {

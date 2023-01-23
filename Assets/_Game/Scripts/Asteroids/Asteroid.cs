@@ -93,6 +93,7 @@ namespace Asteroids
         {
             //var force = Random.Range(_minForce, _maxForce);
             var force = _force.Evaluate(Random.Range(0, 1f));
+            force.ClampZero();
             _rigidbody.AddForce( _direction * force, ForceMode2D.Impulse);
         }
 
@@ -100,6 +101,7 @@ namespace Asteroids
         {
             //var torque = Random.Range(_minTorque, _maxTorque);
             var torque = _torque.Evaluate(Random.Range(0, 1f));
+            torque.ClampZero();
             var negate = Random.Range(0, 2);
 
             if (negate == 0)
@@ -112,6 +114,7 @@ namespace Asteroids
         {
             //var size = Random.Range(_minSize, _maxSize);
             var size = _size.Evaluate(Random.Range(0, 1f));
+            size.ClampZero();
             _shape.localScale = new Vector3(size, size, 0f);
         }
     }
